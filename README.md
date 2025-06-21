@@ -1,5 +1,28 @@
 ![header](imgs/header.jpg)
 
+# Fastfold 2 - A modified Alphafold 2
+
+This package is a modified Alphafold 2.3.1 (Non-docker) that replaces the HHblits step of MSA generation with the much more efficient MMseqs2 easy search. Please follow the set-up instructions available at https://github.com/kalininalab/alphafold_non_docker.
+
+Made by Zhao, K
+
+# Disclaimer
+
+I do not guarantee that this will work for everyone
+The package was tested on the Gadi NCI HPC.
+
+### AlphaFold Code License
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+
 # AlphaFold
 
 This package provides an implementation of the inference pipeline of AlphaFold
@@ -759,16 +782,6 @@ This is not an officially supported Google product.
 
 Copyright 2022 DeepMind Technologies Limited.
 
-### AlphaFold Code License
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at https://www.apache.org/licenses/LICENSE-2.0.
-
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
 
 ### Model Parameters License
 
