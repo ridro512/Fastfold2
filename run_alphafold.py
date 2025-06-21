@@ -33,6 +33,7 @@ from alphafold.data import pipeline_multimer
 from alphafold.data import templates
 from alphafold.data.tools import hhsearch
 from alphafold.data.tools import hmmsearch
+from alphafold.data.tools import mmseqs2 as mmseqs
 from alphafold.model import config
 from alphafold.model import data
 from alphafold.model import model
@@ -65,6 +66,8 @@ flags.DEFINE_string('hmmbuild_binary_path', shutil.which('hmmbuild'),
                     'Path to the hmmbuild executable.')
 flags.DEFINE_string('kalign_binary_path', shutil.which('kalign'),
                     'Path to the Kalign executable.')
+flags.DEFINE_string('mmseqs_binary_path', shutil.which('mmseqs'),
+                    'Path to the MMseqs2 executable.')
 flags.DEFINE_string('uniref90_database_path', None, 'Path to the Uniref90 '
                     'database for use by JackHMMER.')
 flags.DEFINE_string('mgnify_database_path', None, 'Path to the MGnify '
@@ -347,7 +350,7 @@ def main(argv):
 
   monomer_data_pipeline = pipeline.DataPipeline(
       jackhmmer_binary_path=FLAGS.jackhmmer_binary_path,
-      hhblits_binary_path=FLAGS.hhblits_binary_path,
+      hhblits_binary_path=FLAGS.mmseqs_binary_path,
       uniref90_database_path=FLAGS.uniref90_database_path,
       mgnify_database_path=FLAGS.mgnify_database_path,
       bfd_database_path=FLAGS.bfd_database_path,

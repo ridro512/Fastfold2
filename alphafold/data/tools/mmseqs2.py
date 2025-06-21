@@ -103,7 +103,7 @@ class Mmseqs2HhblitsReplacement:
             a3m_content = self._convert_to_a3m(all_results, input_fasta_path)
             
             # Return in the format expected by AlphaFold's run_msa_tool
-            return {'a3m': a3m_content}
+            return {'a3m': a3m_content}, ''
     
     def _count_hits(self, result_file: str) -> int:
         """Count number of hits in result file."""
@@ -200,7 +200,7 @@ class HHBlits:
             binary_path=binary_path,
             databases=databases,
             n_cpu=n_cpu,
-            use_gpu=False  # Set to True if you have GPU-enabled MMseqs2
+            use_gpu=True  # Set to false if you don't have GPU-enabled MMseqs2 :)
         )
     
     def query(self, input_fasta_path: str) -> Mapping[str, Any]:
