@@ -25,6 +25,7 @@ from alphafold.data.tools import hhblits
 from alphafold.data.tools import hhsearch
 from alphafold.data.tools import hmmsearch
 from alphafold.data.tools import jackhmmer
+from alphafold.data.tools import mmseqs2 as mmseqs
 import numpy as np
 
 # Internal import (7716).
@@ -116,6 +117,7 @@ class DataPipeline:
                hhblits_binary_path: str,
                uniref90_database_path: str,
                mgnify_database_path: str,
+               mmseqs_binary_path: str,
                bfd_database_path: Optional[str],
                uniref30_database_path: Optional[str],
                small_bfd_database_path: Optional[str],
@@ -135,8 +137,8 @@ class DataPipeline:
           binary_path=jackhmmer_binary_path,
           database_path=small_bfd_database_path)
     else:
-      self.hhblits_bfd_uniref_runner = hhblits.HHBlits(
-          binary_path=hhblits_binary_path,
+      self.hhblits_bfd_uniref_runner = mmseqs.HHBlits(
+          binary_path=mmseqs_binary_path,
           databases=[bfd_database_path, uniref30_database_path])
     self.jackhmmer_mgnify_runner = jackhmmer.Jackhmmer(
         binary_path=jackhmmer_binary_path,

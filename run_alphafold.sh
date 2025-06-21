@@ -8,6 +8,7 @@ usage() {
         echo "Usage: $0 <OPTIONS>"
         echo "Required Parameters:"
         echo "-d <data_dir>         Path to directory of supporting data"
+        echo "-z <data_dir>        Path to directory of MMseqs2 databases"
         echo "-o <output_dir>       Path to a directory that will store the results."
         echo "-f <fasta_paths>      Path to FASTA files containing sequences. If a FASTA file contains multiple sequences, then it will be folded as a multimer. To fold more sequences one after another, write the files separated by a comma"
         echo "-t <max_template_date> Maximum template release date to consider (ISO-8601 format - i.e. YYYY-MM-DD). Important if folding historical test sets"
@@ -29,6 +30,9 @@ while getopts ":d:o:f:t:g:r:e:n:a:m:c:p:l:b:" i; do
         case "${i}" in
         d)
                 data_dir=$OPTARG
+        ;;
+        z)
+                mdata_dir=$OPTARG
         ;;
         o)
                 output_dir=$OPTARG
@@ -70,7 +74,7 @@ while getopts ":d:o:f:t:g:r:e:n:a:m:c:p:l:b:" i; do
 done
 
 # Parse input and set defaults
-if [[ "$data_dir" == "" || "$output_dir" == "" || "$fasta_path" == "" || "$max_template_date" == "" ]] ; then
+if [[ "$data_dir" == "" || "$mdata_dir" == "" || "$output_dir" == "" || "$fasta_path" == "" || "$max_template_date" == "" ]] ; then
     usage
 fi
 
@@ -158,9 +162,9 @@ export XLA_PYTHON_CLIENT_MEM_FRACTION='4.0'
 uniref90_database_path="$data_dir/uniref90/uniref90.fasta"
 uniprot_database_path="$data_dir/uniprot/uniprot.fasta"
 mgnify_database_path="$data_dir/mgnify/mgy_clusters_2022_05.fa"
-bfd_database_path="$data_dir/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt"
+bfd_database_path="$mdata_dir/bfd_mgy_colabfold_seq.tsv"
 small_bfd_database_path="$data_dir/small_bfd/bfd-first_non_consensus_sequences.fasta"
-uniref30_database_path="$data_dir/uniref30/UniRef30_2021_03"
+uniref30_database_path="$mdata_dir/uniref30/UniRef30_2021_03"
 pdb70_database_path="$data_dir/pdb70/pdb70"
 pdb_seqres_database_path="$data_dir/pdb_seqres/pdb_seqres.txt"
 template_mmcif_dir="$data_dir/pdb_mmcif/mmcif_files"
@@ -171,12 +175,13 @@ hhblits_binary_path=$(which hhblits)
 hhsearch_binary_path=$(which hhsearch)
 jackhmmer_binary_path=$(which jackhmmer)
 kalign_binary_path=$(which kalign)
+mmseqs_binary_path=$(which mmseqs)
 
 command_args="--fasta_paths=$fasta_path --output_dir=$output_dir --max_template_date=$max_template_date --db_preset=$db_preset --model_preset=$model_preset --benchmark=$benchmark --use_precomputed_msas=$use_precomputed_msas --num_multimer_predictions_per_model=$num_multimer_predictions_per_model --use_gpu_relax=$use_gpu_relax --logtostderr"
 
 database_paths="--uniref90_database_path=$uniref90_database_path --mgnify_database_path=$mgnify_database_path --data_dir=$data_dir --template_mmcif_dir=$template_mmcif_dir --obsolete_pdbs_path=$obsolete_pdbs_path"
 
-binary_paths="--hhblits_binary_path=$hhblits_binary_path --hhsearch_binary_path=$hhsearch_binary_path --jackhmmer_binary_path=$jackhmmer_binary_path --kalign_binary_path=$kalign_binary_path"
+binary_paths="--hhblits_binary_path=$hhblits_binary_path --hhsearch_binary_path=$hhsearch_binary_path --jackhmmer_binary_path=$jackhmmer_binary_path --kalign_binary_path=$kalign_binary_path --mmseqs_binary_path=$mmseqs_binary_path"
 
 if [[ $model_preset == "multimer" ]]; then
 	database_paths="$database_paths --uniprot_database_path=$uniprot_database_path --pdb_seqres_database_path=$pdb_seqres_database_path"
